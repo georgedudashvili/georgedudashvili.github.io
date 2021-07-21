@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>ელექტრონული ბიბლიოთეკა</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.web-fonts.ge/fonts/alk-life/css/alk-life.min.css">
+	<link rel="stylesheet" href="https://cdn.web-fonts.ge/fonts/alk-sanet/css/alk-sanet.min.css">
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		#myInput {
+			background-image: url('/css/searchicon.png');
+			/* Add a search icon to input */
+			background-position: 10px 12px;
+			/* Position the search icon */
+			background-repeat: no-repeat;
+			/* Do not repeat the icon image */
+			width: 100%;
+			/* Full-width */
+			font-size: 16px;
+			/* Increase font-size */
+			padding: 12px 20px 12px 40px;
+			/* Add some padding */
+			border: 1px solid #ddd;
+			/* Add a grey border */
+			margin-bottom: 12px;
+			/* Add some space below the input */
+		}
+
+		#myTable {
+			border-collapse: collapse;
+			width: 100%;
+			border: 1px solid #ddd;
+			font-size: 18px;
+			width: 95%;
+			margin: 0 auto;
+		}
+
+		#myTable th,
+		#myTable td {
+			text-align: left;
+			/* Left-align text */
+			padding: 12px;
+			/* Add padding */
+		}
+
+		#myTable tr {
+			/* Add a bottom border to all table rows */
+			border-bottom: 1px solid #ddd;
+		}
+
+		#myTable tr.header,
+		#myTable tr:hover {
+			/* Add a grey background color to the table header and on hover */
+			background-color: #d6f5f5;
+		}
+
+
+		/* Slideshow container */
+		.slideshow-container {
+			max-width: 1000px;
+			position: relative;
+			margin: auto;
+
+		}
+
+		/* Hide the images by default */
+		.mySlides {
+			display: none;
+
+		}
+
+		.mySlides img {
+			display: flex;
+			justify-self: center;
+			align-items: center;
+		}
+
+		.img-.slideshow-container {
+			text-align: center;
+		}
+
+		/* Next & previous buttons */
+		.prev,
+		.next {
+			cursor: pointer;
+			position: absolute;
+			top: 50%;
+			width: auto;
+			margin-top: -22px;
+			padding: 16px;
+			color: rgb(0, 0, 0);
+			font-weight: bold;
+			font-size: 18px;
+			transition: 0.6s ease;
+			border-radius: 0 3px 3px 0;
+			user-select: none;
+		}
+
+		/* Position the "next button" to the right */
+		.next {
+			right: 0;
+			border-radius: 3px 0 0 3px;
+		}
+
+		/* On hover, add a black background color with a little bit see-through */
+		.prev:hover,
+		.next:hover {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+
+		/* Caption text */
+		.text {
+			color: #f2f2f2;
+			font-size: 15px;
+			padding: 8px 12px;
+			position: absolute;
+			bottom: 8px;
+			width: 100%;
+			text-align: center;
+		}
+
+		/* Number text (1/3 etc) */
+		.numbertext {
+			color: black;
+			position: absolute;
+			bottom: -15%;
+			font-weight: bold;
+			display: flex;
+			justify-content: center;
+			width: 100%;
+			margin: 0 auto;
+		}
+
+		/* The dots/bullets/indicators */
+		.dot {
+			cursor: pointer;
+			height: 15px;
+			width: 15px;
+			margin: 0 2px;
+			background-color: #bbb;
+			border-radius: 50%;
+			display: inline-block;
+			transition: background-color 0.6s ease;
+		}
+
+		.active,
+		.dot:hover {
+			background-color: #717171;
+		}
+
+		/* Fading animation */
+		.fade {
+			-webkit-animation-name: fade;
+			-webkit-animation-duration: 1.5s;
+			animation-name: fade;
+			animation-duration: 1.5s;
+
+		}
+
+		@-webkit-keyframes fade {
+			from {
+				opacity: .4
+			}
+
+			to {
+				opacity: 1
+			}
+		}
+
+		@keyframes fade {
+			from {
+				opacity: .4
+			}
+
+			to {
+				opacity: 1
+			}
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		/* Style the search field */
+		form.example input[type=text] {
+			font-family: "ALK Sanet", sans-serif !important;
+			padding: 10px;
+			text-align: center;
+			font-size: 17px;
+			border: 1px solid grey;
+			float: left;
+			background: #f1f1f1;
+			margin: 0;
+		}
+
+		/* Clear floats */
+		form.example::after {
+			font-family: "ALK Sanet", sans-serif !important;
+			content: "";
+			clear: both;
+			display: table;
+		}
+
+		body {
+			font-family: "ALK Sanet", sans-serif;
+			background-color: #f0f0f1;
+		}
+
+		header {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #e6e6e6;
+			padding: 25px;
+			text-align: center;
+			font-size: 35px;
+			color: #9e5800;
+			font-family: "ALK Life", sans-serif;
+		}
+
+		nav {
+			float: left;
+			width: 30%;
+			height: 300px;
+			background: #ccc;
+			padding: 20px;
+		}
+
+		nav ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		article {
+			float: left;
+			width: 100%;
+		}
+
+		.column {
+			float: left;
+			width: 50%;
+			padding: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column
+		}
+
+		.column form {
+			width: 50%;
+		}
+
+		.row {
+			width: 95%;
+			margin: 0 auto;
+		}
+
+		.row:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+
+		@media screen and (max-width: 600px) {
+			.column {
+				width: 100%;
+			}
+		}
+
+		section {
+			width: 100%;
+			height: 100%;
+		}
+
+		section:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+
+		footer {
+			background-color: #e6e6e6;
+			padding: 5px;
+			text-align: center;
+			color: black;
+			margin-top: 5%;
+		}
+
+		/****************************/
+		.img-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		input[type=text],
+		select {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+
+		input[type=submit] {
+			width: 100%;
+			background-color: #c3af21;
+			color: white;
+			padding: 14px 20px;
+			margin: 8px 0;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		input[type=submit]:hover {
+			background-color: #ab9a20;
+		}
+
+		h1 {
+			margin: 0;
+			font-size: 25px;
+			padding-left: 1%;
+		}
+
+		.carousel__container {
+			width: 100%;
+			height: 450px;
+			display: flex;
+			justify-content: center;
+		}
+
+		#myTable {
+			font-family: Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		#myTable a {
+
+			color: #984d00;
+			font-weight: bold;
+		}
+
+		#myTable td,
+		#myTable th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+
+		#myTable tr:nth-child(even) {
+			background-color: white;
+		}
+
+		#myTable tr:hover {
+			background-color: #ddd;
+		}
+
+		#myTable th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: #c3af21;
+			color: white;
+		}
+
+		.search_container {
+			width: 60%;
+			display: flex;
+			align-items: center;
+			margin: 0 auto;
+		}
+
+		.search_container form {
+			width: 100%;
+			margin: 5% auto;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<img src="./book.png" width="4%" alt="">
+		<h1>ყველაზე რეიტინგული წიგნები</h1>
+	</header>
+
+	<section>
+		<div class="carousel__container">
+			<div class="column">
+
+				<div class="slideshow-container">
+
+					<!-- Full-width images with number and caption text -->
+					<div class="mySlides fade">
+						<div class="numbertext">1 / 3</div>
+						<div class="img-container">
+							<img src="150.jpg">
+						</div>
+					</div>
+
+					<div class="mySlides fade">
+						<div class="numbertext">2 / 3</div>
+						<div class="img-container">
+							<img src="152.jpg">
+						</div>
+					</div>
+
+					<div class="mySlides fade">
+						<div class="numbertext">3 / 3</div>
+						<div class="img-container">
+							<img src="151.jpg" style="width:560px; margin-left:3%">
+						</div>
+					</div>
+
+					<!-- Next and previous buttons -->
+					<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+					<a class="next" onclick="plusSlides(1)">&#10095;</a>
+				</div>
+				<br>
+
+				<!-- The dots/circles -->
+				<div style="text-align:center">
+
+				</div>
+
+			</div>
+			<div class="column">
+
+				<h3 style="text-align: center; color:#737373;">ახალი წიგნის რეგისტრაცია</h3>
+				<form>
+					<input type="text" id="fname" name="fname" placeholder="დასახელება"><br>
+					<input type="text" id="fname" name="fname" placeholder="ავტორი"><br>
+					<input type="text" id="fname" name="fname" placeholder="გამომცემლობა"><br>
+					<input type="text" id="fname" name="fname" placeholder="გამოცემის წელი"><br>
+					<select id="Janri">
+						<option>ჟანრი</option>
+						<option>პოემა</option>
+						<option>ლირიკა</option>
+						<option>კომედია</option>
+					</select><br>
+					<input type="submit" value="OK" onclick="add_book();">
+				</form>
+			</div>
+		</div>
+		<div class="search_container">
+			<form class="example" action="action_page.php">
+				<input type="text" placeholder="ძებნა" name="Search" onkeyup="myFunction()"
+					id="f_dasaxeleba">
+			</form>
+		</div>
+		<div class="row">
+			<script>
+				function book(url, dasaxeleba, avtori, Janri, dabechdiliegzempliari, link) {
+					this.url = url;
+					this.dasaxeleba = dasaxeleba;
+					this.avtori = avtori;
+					this.Janri = Janri;
+					this.dabechdiliegzempliari = dabechdiliegzempliari;
+					this.link = link;
+				}
+				var wigni = [];
+				wigni[0] = new book("1.jpg", "ანა ფრანკის დღიური", "ანა ფრანკი", "ავტობიოგრაფიული", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%E1%83%90%E1%83%9C%E1%83%90-%E1%83%A4%E1%83%A0%E1%83%90%E1%83%9C%E1%83%99%E1%83%98%E1%83%A1-%E1%83%93%E1%83%A6%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98/");
+				wigni[1] = new book("2.jpg", "იფიქრე და გამდიდრდი", "ნაპოლეონ ჰილი", "ნოველა", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://biblusi.ge/products/book/w-b-ifiqre-da-gamdidrdi/");
+				wigni[2] = new book("3.jpg", "ქარწაღებულნი", "მარგარეტ მიტჩელი", "დრამა", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://saba.com.ge/books/details/2388/%E1%83%A5%E1%83%90%E1%83%A0%E1%83%AC%E1%83%90%E1%83%A6%E1%83%94%E1%83%91%E1%83%A3%E1%83%9A%E1%83%9C%E1%83%98-%E1%83%A2%E1%83%9D%E1%83%9B%E1%83%98-I");
+				wigni[3] = new book("4.jpg", "ბინდი-საგა", "სტეფანი მაიერი", "რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%91%e1%83%98%e1%83%9c%e1%83%93%e1%83%98/");
+				wigni[4] = new book("5.jpg", "დავინჩის კოდი", "დენ ბრაუნი", "დეტექტივი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://biblusi.ge/products/book/den-brauni-da-vinCis-kodi/");
+				wigni[5] = new book("6.jpg", "ალქიმიკოსი", "პაოლო კოელიო", "რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%90%e1%83%9a%e1%83%a5%e1%83%98%e1%83%9b%e1%83%98%e1%83%99%e1%83%9d%e1%83%a1%e1%83%98/");
+				wigni[6] = new book("7.jpg", "ბეჭდების მბრძანებელი", "ჯ.რ.რ ტოლკინი", "ფენტეზი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://saba.com.ge/books/details/3939/%E1%83%91%E1%83%94%E1%83%AD%E1%83%93%E1%83%94%E1%83%91%E1%83%98%E1%83%A1-%E1%83%9B%E1%83%91%E1%83%A0%E1%83%AB%E1%83%90%E1%83%9C%E1%83%94%E1%83%91%E1%83%94%E1%83%9A%E1%83%98-%E1%83%AC%E1%83%98%E1%83%92%E1%83%9C%E1%83%98-I-%E1%83%9C%E1%83%90%E1%83%AC%E1%83%98%E1%83%9A%E1%83%98-1");
+				wigni[7] = new book("8.jpg", "ჰარი პოტერი", "ჯოან როულინგი", "ფენტეზი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%b0%e1%83%90%e1%83%a0%e1%83%98-%e1%83%9e%e1%83%9d%e1%83%a2%e1%83%94%e1%83%a0%e1%83%98-%e1%83%93%e1%83%90-%e1%83%a4%e1%83%98%e1%83%9a%e1%83%9d%e1%83%a1%e1%83%9d%e1%83%a4%e1%83%98%e1%83%a3/");
+				wigni[8] = new book("9.jpg", "მაო ძე დუნის ციტატები", "მაო ძე დუნი", "საგანმანათლებლო", "&#11088 &#11088 &#11088 &#11088 &#11088", "http://genia.ge/?p=12161");
+				wigni[9] = new book("10.jpg", "ბიბლია", "ბიბლია", "საღმრთო წიგნი", "&#11088 &#11088 &#11088 &#11088 &#11088", "http://www.orthodoxy.ge/tserili/biblia_sruli/sarchevi.php");
+				wigni[10] = new book("13.jpg", "კაშტანკა", "ანტონ ჩეხოვი", "საბავშვო", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%99%e1%83%90%e1%83%a8%e1%83%a2%e1%83%90%e1%83%9c%e1%83%99%e1%83%90/");
+				wigni[11] = new book("14.jpg", "ხევისბერი გოჩა", "ალექსანდრე ყაზბეგი", "ისტორიული", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%99%e1%83%90%e1%83%a8%e1%83%a2%e1%83%90%e1%83%9c%e1%83%99%e1%83%90/");
+				wigni[12] = new book("15.jpg", "წუთისოფელი", "გი დე მოპასანი", "ნოველა/რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%ac%e1%83%a3%e1%83%97%e1%83%98%e1%83%a1%e1%83%9d%e1%83%a4%e1%83%94%e1%83%9a%e1%83%98/");
+				wigni[13] = new book("16.jpg", "დავითიანი", "დავით გურამიშვილი", "ავტობიოგრაფია/პოემა", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%93%e1%83%90%e1%83%95%e1%83%98%e1%83%97%e1%83%98%e1%83%90%e1%83%9c%e1%83%98/");
+				wigni[14] = new book("17.jpg", "დათა თუთაშხია", "ჭაბუა ამირეჯიბი", "კლასიკა/კულტურული", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%93%e1%83%90%e1%83%97%e1%83%90-%e1%83%97%e1%83%a3%e1%83%97%e1%83%90%e1%83%a8%e1%83%ae%e1%83%98%e1%83%90/");
+				wigni[15] = new book("18.jpg", "ჰაკი აძბა", "ლეო ქიაჩელი", "კლასიკა/ნოველა", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2018/09/%E1%83%B0%E1%83%90%E1%83%99%E1%83%98-%E1%83%90%E1%83%AB%E1%83%91%E1%83%90.pdf");
+				wigni[16] = new book("19.jpg", "გორა მბორგალი", "ჭაბუა ამირეჯიბი", "რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2021/05/gora-mborgali.pdf");
+				wigni[17] = new book("20.jpg", "დიონისოს ღიმილი", "კონსტანტინე გამსახურდია", "კლასიკა/რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2021/04/dionisos-gimili.pdf");
+				wigni[18] = new book("21.jpg", "მთვარის მოტაცება", "კონსტანტინე გამსახურდია", "რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2021/05/mtvaris-motaceba.pdf");
+				wigni[19] = new book("22.jpg", "დიდოსტატის მარჯვენა", "კონსტანტინე გამსახურდია", "კლასიკა/რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%93%e1%83%98%e1%83%93%e1%83%9d%e1%83%a1%e1%83%a2%e1%83%90%e1%83%a2%e1%83%98%e1%83%a1-%e1%83%99%e1%83%9d%e1%83%9c%e1%83%a1%e1%83%a2%e1%83%90%e1%83%9c%e1%83%a2%e1%83%98%e1%83%9c%e1%83%94%e1%83%a1/");
+				wigni[20] = new book("23.jpg", "ჩემი ბრძოლა", "ადოლფ ჰიტლერი", "ისტორიული/პოლიტიკა", "&#11088 &#11088 &#11088 &#11088 ", "https://eon.ge/wp-content/uploads/2018/09/%E1%83%A9%E1%83%94%E1%83%9B%E1%83%98-%E1%83%91%E1%83%A0%E1%83%AB%E1%83%9D%E1%83%9A%E1%83%90.pdf");
+				wigni[21] = new book("24.jpg", "ომი და მშვიდობა", "ლევ ტოლსტოი", "ისტორიული/კლასიკა", "&#11088 &#11088 &#11088 &#11088 ", "https://eon.ge/wp-content/uploads/2021/04/tolstoi-omi-da-mshvidoba.pdf");
+				wigni[22] = new book("25.jpg", "კარმა", "ლევ ტოლსტოი", "კლასიკა", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2020/06/%E1%83%99%E1%83%90%E1%83%A0%E1%83%9B%E1%83%90-%E1%83%9A%E1%83%94%E1%83%95-%E1%83%A2%E1%83%9D%E1%83%9A%E1%83%A1%E1%83%A2%E1%83%9D%E1%83%98...pdf");
+				wigni[23] = new book("26.jpg", "მამა სერგი", "ლევ ტოლსტოი", "კლასიკა/კულტურალური", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2020/02/%E1%83%9A%E1%83%94%E1%83%95-%E1%83%A2%E1%83%9D%E1%83%9A%E1%83%A1%E1%83%A2%E1%83%9D%E1%83%98_%E1%83%9B%E1%83%90%E1%83%9B%E1%83%90-%E1%83%A1%E1%83%94%E1%83%A0%E1%83%92%E1%83%98.pdf");
+				wigni[24] = new book("27.jpg", "ანა კარენინა", "ლევ ტოლსტოი", "კლასიკა/რომანი", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/wp-content/uploads/2021/02/ana-karenina.pdf");
+				wigni[25] = new book("28.jpg", "ჰეკლბერი ფინის თავგადასავალი", "მარკ ტვენი", "საბავშვო", "&#11088 &#11088 &#11088 &#11088 ", "https://eon.ge/wp-content/uploads/2021/05/heklberi-fini.pdf");
+				wigni[26] = new book("29.jpg", "უფლისწული და მათხოვარი", "მარკ ტვენი", "საბავშვო", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%a3%e1%83%a4%e1%83%9a%e1%83%98%e1%83%a1%e1%83%ac%e1%83%a3%e1%83%9a%e1%83%98-%e1%83%93%e1%83%90-%e1%83%9b%e1%83%90%e1%83%97%e1%83%ae%e1%83%9d%e1%83%95%e1%83%90%e1%83%a0%e1%83%98/");
+				wigni[27] = new book("30.jpg", "ტომ სოიერის თავგადასავალი", "მარკ ტვენი", "საბავშვო", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%a2%e1%83%9d%e1%83%9b-%e1%83%a1%e1%83%9d%e1%83%98%e1%83%94%e1%83%a0%e1%83%98%e1%83%a1-%e1%83%97%e1%83%90%e1%83%95%e1%83%92%e1%83%90%e1%83%93%e1%83%90%e1%83%a1%e1%83%90%e1%83%95%e1%83%90%e1%83%9a/");
+				wigni[28] = new book("31.jpg", "ადამ და ევას დღიურები", "მარკ ტვენი", "კლასიკა/რელიგია", "&#11088 &#11088 &#11088 &#11088 &#11088", "https://eon.ge/book/%e1%83%90%e1%83%93%e1%83%90%e1%83%9b-%e1%83%93%e1%83%90-%e1%83%94%e1%83%95%e1%83%90%e1%83%a1-%e1%83%93%e1%83%a6%e1%83%98%e1%83%a3%e1%83%a0%e1%83%94%e1%83%91%e1%83%98/");
+				wigni[29] = new book("32.jpg","სპარტაკი","რაფაელო ჯიოვანოლი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/book/%e1%83%a1%e1%83%9e%e1%83%90%e1%83%a0%e1%83%a2%e1%83%90%e1%83%99%e1%83%98/");
+				wigni[30] = new book("33.jpg","კოლა ბრონიონი","რომენ როლანი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/06/kola-bronioni.pdf");
+				wigni[31] = new book("34.jpg","პატივი კატალონიას","ჯორჯ ორუელი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/06/pativi-katalonias.pdf");
+				wigni[32] = new book("35.jpg","მთვარე და ექვსპენიანი","სომერსეტ მოემი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/06/mtvare-da-eqvspeniani.pdf");
+				wigni[33] = new book("36.jpg","წერილები ჩემი წისქვილიდან","ალფონს დოდე","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/06/werilebi-chemi-wisqvilidan.pdf");
+				wigni[34] = new book("37.jpg","ოქროს რვეული","დორის ლესინგი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/05/oqros-rveuli.pdf");
+				wigni[35] = new book("38.jpg","ქალთა ბედნიერება","ემილ ზოლა","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/04/qalta-bedniereba.pdf");
+				wigni[36] = new book("39.jpg","ლოტე ვაიმარში","თომას მანი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/02/lote-vaimarshi.pdf");
+				wigni[37] = new book("40.jpg","ილიადა","ჰომეროსი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/02/iliad.pdf");
+				wigni[38] = new book("41.jpg","ოდისეა","ჰომეროსი","კლასიკა","&#11088 &#11088 &#11088 &#11088 &#11088","https://eon.ge/wp-content/uploads/2021/02/odisea.pdf");
+
+				function add_book() {
+					if (document.getElementById("dasaxeleba").value.length == 0) {
+						alert("გთხოვთ შეავსოთ დასახელების ველი!");
+					}
+					else
+						if (document.getElementById("autor").value.length == 0) {
+							alert("გთხოვთ შეავსოთ ავტორის ველი!");
+						}
+						else alert("გთხოვთ დაუკავშირდეთ ადმინისტრაციას!")
+				}
+
+			</script>
+
+
+
+			<h2 style="text-align: center; padding:2% 0;">საცავი</h2>
+			<table id="myTable">
+				<tr>
+					<th>ნომერი</th>
+					<th>ფოტო</th>
+					<th>დასახელება</th>
+					<th>ავტორი</th>
+					<th>ჟანრი</th>
+					<th>რეიტინგი</th>
+					<th>წიგნის წაკითხვა</th>
+
+				</tr>
+				<script>
+					for (var i = 0; i < wigni.length; i++) {
+						document.write(
+							"<tr>" +
+							"<td align='right'>" + (i + 1) + ".</td>" +
+							"<td><img src='" + wigni[i].url + "' width='50'></td>" +
+							"<td>" + wigni[i].dasaxeleba + "</td>" +
+							"<td>" + wigni[i].avtori + "</td>" +
+							"<td>" + wigni[i].Janri + "</td>" +
+							"<td>" + wigni[i].dabechdiliegzempliari + "</td>" +
+							"<td> <a href='" + wigni[i].link + "'>წაიკითხე </a> </td> " +
+							"</tr>"
+						);
+					}
+				</script>
+			</table>
+
+
+
+
+			<script>
+
+				var slideIndex = 1;
+				showSlides(slideIndex);
+
+				// Next/previous controls
+				function plusSlides(n) {
+					showSlides(slideIndex += n);
+				}
+
+				// Thumbnail image controls
+				function currentSlide(n) {
+					showSlides(slideIndex = n);
+				}
+
+				function showSlides(n) {
+					var i;
+					var slides = document.getElementsByClassName("mySlides");
+					var dots = document.getElementsByClassName("dot");
+					if (n > slides.length) { slideIndex = 1 }
+					if (n < 1) { slideIndex = slides.length }
+					for (i = 0; i < slides.length; i++) {
+						slides[i].style.display = "none";
+					}
+					for (i = 0; i < dots.length; i++) {
+						dots[i].className = dots[i].className.replace(" active", "");
+					}
+					slides[slideIndex - 1].style.display = "block";
+					dots[slideIndex - 1].className += " active";
+				}
+				function add_book(){
+					alert("წიგნი წარმატებით დაემატა")
+				    }
+
+				function myFunction() {
+					// Declare variables
+					var input, filter, table, tr, td, i, txtValue;
+					input = document.getElementById("f_dasaxeleba");
+					filter = input.value.toUpperCase();
+					table = document.getElementById("myTable");
+					tr = table.getElementsByTagName("tr");
+
+					// Loop through all table rows, and hide those who don't match the search query
+					for (i = 0; i < tr.length; i++) {
+						th = tr[i].getElementsByTagName("th")[0];
+						if (th) {
+							txtValue = th.textContent || th.innerText;
+							if (txtValue.toUpperCase().indexOf(filter) > -1) {
+								tr[i].style.display = "";
+							} else {
+								tr[i].style.display = "none";
+							}
+						}
+					}
+				}
+			</script>
+
+	</section>
+	
+	<footer>
+		<p>ყველა უფლება დაცულია 2021</p>
+	</footer> 
+
+</body>
+
+</html>
